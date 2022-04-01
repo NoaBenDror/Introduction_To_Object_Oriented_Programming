@@ -1,0 +1,71 @@
+noabendror
+
+
+=============================
+=      File description     =
+=============================
+SpaceShip.java - This class represents a spaceship. This is a super class of all kinds of spaceships.
+
+SpaceShipFactory.java - This class represents a space ship factory. It is responsible for creating all
+                        spaceships.
+
+Human.java - This class represents a human spaceship, a sub-class of spaceShip class.
+             It behaves according to user's input.
+
+Runner.java - This class represents a runner spaceship, a sub-class of spaceShip class.
+              This spaceship attempts to run away from the fight
+
+Basher.java - This class represents a basher spaceship, a sub-class of spaceShip class.
+              This ship attempts to collide with other ships.
+
+Aggressive.java - This class represents an aggressive spaceship, a sub-class of spaceShip class.
+                  This ship pursues other ships and tries to fire at them.
+
+Drunkard.java - This class represents a drunkard spaceship, a sub-class of spaceShip class.
+                This ship does random stuff.
+
+Special.java - This class represents a special spaceship, a sub-class of spaceShip class.
+               On the first round, this ship finds the closest ship, and makes it its "victim"
+               for the rest of the game.
+
+=============================
+=          Design           =
+=============================
+I chose to implement the "SpaceWars" game using inheritance and polymorphism. The SpaceShipFactory class
+is responsible for creating all spaceships in the game, according to input from the command line.
+The SpaceShip class is a actually a super class of 6 sub-classes, which represent 6 different kinds
+of spaceships. One of them is a human controlled spaceships, and the five others behave according to certain
+characteristics or "personality". Those 6 kinds' status (health, energy, etc) will be the same when the
+game starts, and the same rules are applied to all of them - this part will be implemented in the
+SpaceShip class (the super-class). The part where different kinds of spaceship differ from each other
+(only the way it moves or behaves) will  be implemented in each sub-class according to its characteristics
+(will be done in the doAction method - override). Even in the doAction method, some actions are the same
+for all kinds of spaceships - that's why i implemented a method (updateShipData) which takes care of those
+actions and is only written once - in the SpaceShip class.
+There is also use of polymorphism in the SpaceShipFactory class.
+
+I decided to use protected modifiers as some of the SpaceShip data members, because it seemed natural
+to me that all kinds of spaceship can access and change it's own characteristics, but no one else can
+access or change it.  Some data members are private - such as the ship's physics.
+
+This design divides the program to distinct components - each kind of spaceship has it's own class.
+In addition, by applying polymorphism, the game itself doesn't "know" that there are different kinds
+of spaceships - that means it is possible to add new kinds in the future, or remove existing kinds.
+
+=============================
+=  Implementation details   =
+=============================
+* Drunkard spaceship - This ship has a random behaviour. Every 100 rounds, it picks a random number
+  between 0 and 4. If 0 was picked - the ship attempts to fire for the next 100 rounds.
+  If 1 was picked - the ship turns left for the next 100 rounds (makes circles).
+  Else (2,3,4) - the ship attempts to teleport for the next 100 rounds. (I chose to do a random behaviour
+  every 100 rounds so that the change of behavior would be visible on the screen).
+
+* Special spaceship - This ship has a special behaviour. On the first round of the game, this ship finds
+  the closest ship, saves it as a data member, and makes it its "victim" for the rest of the game -
+  it will turn towards the victim ship, and if its angle to the "victim" ship is smaller than
+  0.21 radians, it will attempt to fire.
+
+=============================
+=    Answers to questions   =
+=============================

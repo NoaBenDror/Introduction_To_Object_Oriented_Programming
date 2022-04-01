@@ -1,0 +1,65 @@
+noabendror
+
+
+=============================
+=      File description     =
+=============================
+SimpleHashSet.java - A superclass for implementations of hash-sets implementing the SimpleSet interface.
+
+ClosedHashSet.java - This class represents a hash-set based on closed-hashing with quadratic probing.
+Extends SimpleHashSet
+
+StringHolder.java - This class holds a String (meant to support delete operation in ClosedHashSet)
+
+OpenHashSet.java - This class represents a hash-set based on chaining. Extends SimpleHashSet.
+
+LinkedListHolder.java - This class holds a Linked List of String type. It is a wrapper-class that has
+a LinkedList<String> and delegates methods to it.
+
+CollectionFacadeSet.java - Wraps an underlying Collection and serves to both simplify its API and give
+it a common type with the implemented SimpleHashSets.
+
+SimpleSetPerformanceAnalyzer.java - This class compares the performances (measures runtime) of the following
+data structure: OpenHashSet, ClosedHashSet, Java's TreeSet, Java's LinkedList, Java's HashSet.
+
+RESULTS - The results of the SimpleSetPerformanceAnalyzer class.
+
+=============================
+=          Design           =
+=============================
+
+In the SimpleSetPerformanceAnalyzer class, i decided to define the data file as a data member (given as input
+when initializing). I implemented a method for each test, and each method is the same
+for each data structure. In the main method, all the tests are being run with the wanted input. I also made
+some printouts to make the test more readable.
+
+=============================
+=  Implementation details   =
+=============================
+
+I implemented a LinkedListHolder class for OpenHashSet which holds a Linked List of String type. It is a
+wrapper-class that delegates methods to the LinkedList data member.
+
+I implemented a StringHolder class to help handle the deletion mechanism in ClosedHashSet. StringHolder has a
+String type object as a data member and works through it. The elements in ClosedHashSet are actually of
+StringHolder type. If the "delete" method was called, we define the data member of the StringHolder object as
+null, but the StringHolder object itself will not be null.
+
+=============================
+=    Answers to questions   =
+=============================
+In the RESULTS file, we can see that OpenHashSet and ClosedHashSet have bad results for data1.txt.
+data1.txt contains a list of 99,999 different words with the same hash, which explains these bad results-
+In the OpenHashSet, all the elements are actually being added to the same cell, in one long linked list.
+If we want to check if a value is in OpenHashSet, for this case - we need to iterate the whole linked list
+until we find it (or not) - which explains the result we got.
+In the ClosedHashSet, for each "add" function (except for the first) the element being added is looking for
+an empty cell according to it's clamped index, but will reach it only after many iterations.
+
+It seems that LinkedList (as a set) is not the best implementation if we want to check if it contains some
+elements- because it iterates over the linked list. OpenHashSet and ClosedHashSet is not a good implementation
+in case a lot of our elements have the same hash.In Open- we enlarge the hash table for no reason(in case of
+dealing with data1.txt)- all the elements go to the same cell anyway. In Closed- the elements, most of the time,
+will not find an empty cell on the first try. It seems that generally OpenHashSet is more efficient than
+ClosedHashSet. TreeSet is pretty good for adding values, but not for "contains" method.
+Java's HashSet seems to be the most efficient, and the fastest.

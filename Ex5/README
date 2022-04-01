@@ -1,0 +1,101 @@
+noabendror
+
+
+=============================
+=      File description     =
+=============================
+filesprocessing package:
+
+DirectoryProcessor.java - This class represents a directory processor - will filter the files in a given
+directory according to various conditions, and order the filenames that passed the filtering according to
+various properties.
+
+Order.java - This class represents an order condition to sort given files by
+
+Parser.java -  This class parses a given String array. It knows the logical order of the commands,
+and divides them into sections.
+
+Type1Exception.java - Represents a type2 exception - should be thrown for one of these cases:
+1.A bad FILTER/ORDER name. 2. Bad parameters to the filters
+
+Type1Exception.java - Represents a type2 exception - should be thrown for one of these cases:
+1.A bad sub-section name. 2. Bad format of the commends file
+
+filters package(sub-package of filesprocessing package):
+
+FilterFactory.java - This class represents a filter factory. It is responsible for creating all filters.
+
+Filter.java - This abstract class represents a filter of files according to some criteria.
+
+AllFilter.java - This class represents a filter where all files are matched or all files are unmatched.
+extends Filter.
+
+BetweenFilter.java - This class represents a filter that checks if file size is between (inclusive) the given
+numbers (in k-bytes). extends Filter.
+
+ContainsFilter.java - This class represents a filter that checks if given value is contained in the file name
+(excluding path). extends Filter.
+
+ExecutableFilter.java - This class represents a filter that checks if files have or don't have execution
+permission. extends Filter.
+
+FileFilter.java - This class represents a filter that checks if given value equals the file name
+(excluding path). extends Filter.
+
+GreaterThanFilter.java - This class represents a filter that checks if file size is strictly greater than the
+given number of k-bytes. extends Filter.
+
+HiddenFilter.java - This class represents a filter that checks if files are hidden or not. extends Filter.
+
+PrefixFilter.java - This class represents a filter that checks if given value is the prefix of the file name
+(excluding path). extends Filter.
+
+SmallerThanFilter.java - This class represents a filter that checks if file size is strictly less than the
+given number of k-bytes. extends Filter.
+
+SuffixFilter.java - This class represents a filter that checks if given value is the suffix of the file name
+(excluding path). extends Filter.
+
+WritableFilter.java - This class represents a filter that checks if files have or don't have writing
+permission. extends Filter
+
+filecomparator package(sub-package of filesprocessing package):
+
+FileComparatorFactory.java - This class represents a file comparator factory. It is responsible for creating
+all file comparators.
+
+AbsComparator.java - This class represents a file comparator by absolute path (from ’a’ to ’z’).
+It implements Comparator<File> .
+
+SizeComparator.java - This class represents a file comparator by file size (smallest to largest).
+It implements Comparator<File>.
+
+TypeComparator.java - This class represents a file comparator by file type (from ’a’ to ’z’).
+It implements Comparator<File>.
+
+=============================
+=          Design           =
+=============================
+I chose to implement the program as follows:
+the filesprocessing package has 2 sub-packages - filecomparators package, and filters package.
+They are mostly used as service-packages.
+In the filecomparators package, there is a factory for those comparators, and 3 different types of
+comparators, each one implements Comparator<File>. In the filters package, there is a factory for those
+filters, an abstract class Filter and 11 different types of filters, that extend Filter.
+
+=============================
+=  Implementation details   =
+=============================
+The DirectoryProcessor class is the one putting all the processing together, by a method (process).
+The parser gets a string array of the lines in the command file, and using that array - parses the commands
+file. The parser can check if the format of the commands file is valid. After doing so, it also parses the
+sections and holds as data members the filter condition and the order condition.
+
+Exceptions type1 that regard FILTER are thrown in the creation of the filter, and caught in process
+method of the DirectoryProcessor.
+All type1 exceptions are handled in the same way (printing "warning in line X"), that's why I chose to not
+differentiate between different kinds.
+Exceptions type2 are thrown in Parser, that recognizes invalidity of the commands file.
+
+For sorting files, i implemented a quicksort algorithm that works on List<File>, and uses the matching
+comparator.

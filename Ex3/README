@@ -1,0 +1,63 @@
+noabendror
+
+
+=============================
+=      File description     =
+=============================
+Stockroom.java - This class represents a stockroom. Each stockroom has a capacity, which is the total amount
+of storage units it can hold. A stockroom can contain different types of items. All items of
+the same type take up  the same amount of storage units.
+
+LongTermStorage.java - This class represents a centralized long-term storage (extends Stockroom), which has
+a capacity of 1000 storage units. Items from lockers will be moved to here, if they
+take more than 50% of the storage units of that locker.
+
+Locker.java - This class represents a locker (extends Stockroom). Some items from this locker will be moved
+to a centralized long-term storage, if they take more than 50% of the storage units of
+this locker.
+
+LockerTest.java - This is a test class for Locker class.
+
+LongTermTest.java - This is a test class for LongTermStorage class.
+
+SpaceshipDepositoryTest.java - This is a test suite.
+
+BoopingSite.java - This class represents a hotel booking site, that allows for personalized search
+methodologies.
+
+RatingComparator.java - This class implements Comparator of Hotel type. It compares between hotels according
+to star-rating.
+
+ProximityComparator.java - This class implements Comparator of Hotel type. It compares between hotels
+according to proximity.
+
+BoopingSiteTest.java - This is a test class for BoopingSite class.
+
+=============================
+=          Design           =
+=============================
+I chose to implement the "starship depository" task using inheritance. I implemented a super-class called
+"Stockroom", which represents a general stockroom. Locker class and LongTermStorage class are sub-classes
+of Stockroom class. I chose NOT to make the Stockroom class abstract, to leave an option to create
+a stockroom with any given capacity.
+There is also implementation of composition - Locker class holds a static data member of a LongTermStorage
+type, meaning this long-term storage is the same long-term storage to all lockers.
+
+On the hotels part, i chose to implement two classes that implement Comparator interface -
+1. RatingComparator(compares between two hotels according to star-rating). 2. ProximityComparator(compares
+between two hotels according to proximity to given geographic point).
+
+=============================
+=  Implementation details   =
+=============================
+* I chose to allow adding or removing 0 items, but it won't be added to the Inventory HashMap.
+* On LockerTest class, i reset the inventory of the long-term storage after each test, so that each test
+  will stand on it's own, without effecting each other.
+* On the LongTermTest class, i checked that there is no constraint about two different types residing in
+  the same locker.
+* On the BoopingSite class, there is a data member of array of hotels, from the given file. That way, we
+  read the file only once, and put all its data in that array.
+
+=============================
+=    Answers to questions   =
+=============================
